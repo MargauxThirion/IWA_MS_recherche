@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  # Service de recherche
+  search-service:
+    build:
+      context: ./search-service  # Chemin vers le dossier contenant le Dockerfile et code du service de recherche
+    ports:
+      - "8086:8080"
+    depends_on:
+      - location-service
+      - equipment-service
+    networks:
+      - microservices-network
+
+  # Service de lieux
+  location-service:
+    build:
+      context: ./location-service  # Chemin vers le Dockerfile et code du service de lieux
+    ports:
+      - "8083:8080"  # Utilise le port 8083
+    networks:
+      - microservices-network
+
+  # Service d'équipements
+  equipment-service:
+    build:
+      context: ./equipment-service  # Chemin vers le Dockerfile et code du service d'équipements
+    ports:
+      - "8084:8080"  # Utilise le port 8084
+    networks:
+      - microservices-network
+
+networks:
+  microservices-network:
